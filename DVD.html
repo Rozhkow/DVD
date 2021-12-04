@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <script src="../script.js"></script>
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      transition: all 0.4s;
+    }
+
+    #dvd {
+      width: 100px;
+      position: absolute;
+    }
+
+    #dvd img {
+      width: 100%;
+    }
+
+    #dvd2 {
+      width: 100px;
+      position: absolute;
+      top: 200;
+      left: 100;
+    }
+
+    #dvd2 img {
+      width: 100%;
+    }
+  </style>
+  <script>
+    const color = "0123456789abcdef";
+    let newColor = "";
+
+    const newRandomColor = () => {
+      const index = Math.floor(Math.random() * (15 - 0) + 1);
+      newColor = newColor + color[index];
+      return newColor.length < 6 ? newRandomColor() : newColor;
+    };
+
+    window.onload = () => {
+      let dvd = document.getElementById("dvd");
+      let toBottom = true;
+      let toRight = true;
+      setInterval(() => {
+        let height = window.innerHeight - dvd.clientHeight;
+        let width = window.innerWidth - dvd.clientWidth;
+        let top = dvd.offsetTop;
+        let left = dvd.offsetLeft;
+        let top2 = dvd2.offsetTop;
+        let left2 = dvd2.offsetLeft;
+        
+        if (
+          top > top2 &&
+          top2 + dvd.clientHeight >= top &&
+          (left <= left2 + dvd.clientWidth && left >= left2 - dvd.clientWidth)
+        ) {
+          toBottom = !toBottom;
+          toBottom2 = !toBottom2;
+        }
+        if (
+          top2 > top &&
+          top + dvd.clientHeight >= top2 &&
+          (left2 <= left + dvd.clientWidth && left2 >= left - dvd.clientWidth)
+        ) {
+          toBottom = !toBottom;
+          toBottom2 = !toBottom2;
+        }
+
+        if (
+          left > left2 &&
+          left2 + dvd.clientWidth >= left &&
+          (top <= top2 + dvd.clientHeight && top >= top2 - dvd.clientHeight)
+        ) {
+          toRight = !toRight;
+          toRight2 = !toRight2;
+        }
+        if (
+          left2 > left &&
+          left + dvd.clientWidth >= left2 &&
+          (top2 <= top + dvd.clientHeight && top2 >= top - dvd.clientHeight)
+        ) {
+          toRight = !toRight;
+          toRight2 = !toRight2;
+        }
+
+        if (!toBottom && top > 0 && top < height) {
+        } else if (top >= height) {
+          toBottom = false;
+          newColor = "";
+          newRandomColor();
+        } else if (top <= 0) {
+          toBottom = true;
+          newColor = "";
+          newRandomColor();
+        }
+
+        if (!toRight && left > 0 && left < width) {
+        } else if (left >= width) {
+          toRight = false;
+          newColor = "";
+          newRandomColor();
+        } else if (left <= 0) {
+          toRight = true;
+          newColor = "";
+          newRandomColor();
+        }
+
+        if (toBottom) {
+          top = top + 2;
+        } else top = top - 2;
+        if (toRight) {
+          left = left + 2;
+        } else left = left - 2;
+
+        dvd.style.top = `${top}px`;
+        dvd.style.left = `${left}px`;
+        document.getElementsByTagName(
+          "body"
+        )[0].style.backgroundColor = `#${newColor}`;
+      }, 10);
+
+      let dvd2 = document.getElementById("dvd2");
+      let toBottom2 = true;
+      let toRight2 = true;
+      dvd2.style.top = `300px`;
+      dvd2.style.left = `300px`;
+      setInterval(() => {
+        let height2 = window.innerHeight - dvd2.clientHeight;
+        let width2 = window.innerWidth - dvd2.clientWidth;
+        let top2 = dvd2.offsetTop;
+        let left2 = dvd2.offsetLeft;
+        let top = dvd.offsetTop;
+        let left = dvd.offsetLeft;
+        if (!toBottom2 && top2 > 0 && top2 < height2) {
+        } else if (top2 >= height2) {
+          toBottom2 = false;
+          newColor = "";
+          newRandomColor();
+        } else if (top2 <= 0) {
+          toBottom2 = true;
+          newColor = "";
+          newRandomColor();
+        }
+
+        if (!toRight2 && left2 > 0 && left2 < width2) {
+        } else if (left2 >= width2) {
+          toRight2 = false;
+          newColor = "";
+          newRandomColor();
+        } else if (left2 <= 0) {
+          toRight2 = true;
+          newColor = "";
+          newRandomColor();
+        }
+
+        if (toBottom2) {
+          top2 = top2 + 2;
+        } else top2 = top2 - 2;
+        if (toRight2) {
+          left2 = left2 + 2;
+        } else left2 = left2 - 2;
+
+        dvd2.style.top = `${top2}px`;
+        dvd2.style.left = `${left2}px`;
+        document.getElementsByTagName(
+          "body"
+        )[0].style.backgroundColor = `#${newColor}`;
+      }, 5);
+    };
+  </script>
+
+  <body>
+    <div id="dvd">
+      <img src="../images/dvd.png" />
+    </div>
+    <div id="dvd2">
+      <img src="../images/dvd.png" />
+    </div>
+  </body>
+</html>
